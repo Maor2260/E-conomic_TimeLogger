@@ -49,8 +49,14 @@ namespace Server.Controllers
             return new ProjectExternal()
             {
                 Name = project.Name,
-                Deadline = project.Deadline
+                Deadline = project.Deadline,
+                Records = project.Logs.Select(log => toExternal(log)).ToList()
             };
+        }
+
+        private Duration toExternal(TimeLog timeLog)
+        {
+            return new Duration(timeLog.Duration);
         }
 
         [HttpPost]
@@ -66,9 +72,9 @@ namespace Server.Controllers
             {
                 return NotFound();
             }
-            catch (TooShortDurationException)
+            catch (Exception e)
             {
-                return BadRequest(nameof(TooShortDurationException));
+                return BadRequest(e.GetType().Name);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using DataModel.Entities;
+using Microsoft.EntityFrameworkCore;
 using Service.Data;
 
 namespace Service.ProjectService
@@ -31,8 +32,10 @@ namespace Service.ProjectService
 
         public Project GetProject(Guid projectKey)
         {
-            return _dataContext.Projects.Find(projectKey) ??
-                throw new NotFoundException(projectKey);
+            return _dataContext.Projects
+                .Include(project => project.Logs)
+                .FirstOrDefault(project => projectKey.Equals(project.Key))
+                ?? throw new NotFoundException(projectKey);
         }
 
         public void LogTime(LogTimeDTO logTimeDTO)
@@ -43,6 +46,11 @@ namespace Service.ProjectService
             }
 
             var project = GetProject(logTimeDTO.ProjectKey);
+            if (project.Deadline != null &&
+                project.Deadline < DateTime.Now)
+            {
+                throw new ProjectOverdueException();
+            }
             project.Logs.Add(createTimeLogEntity(logTimeDTO.Duration));
             _dataContext.SaveChanges();
         }

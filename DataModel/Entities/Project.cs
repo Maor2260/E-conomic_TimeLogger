@@ -13,7 +13,7 @@ namespace DataModel.Entities
 
         public DateTime? Deadline { get; set; }
 
-        public List<TimeLog> Logs { get; set; } = new List<TimeLog>(); // 1 -> n relation
+        public List<TimeLog> Logs { get; set; } = new List<TimeLog>();
 
         //public DateTime TotalTimeSpent { get; set; } - If storage was an issue.
     }
