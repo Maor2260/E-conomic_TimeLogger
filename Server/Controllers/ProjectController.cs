@@ -1,4 +1,5 @@
-﻿using Facade.Project;
+﻿using DataModel.Entities;
+using Facade.Project;
 using Microsoft.AspNetCore.Mvc;
 using Service.Project;
 
@@ -26,6 +27,30 @@ namespace Server.Controllers
         private CreateProjectDTO toDto(CreateProjectRequest createProjectRequest)
         {
             return new CreateProjectDTO(createProjectRequest.Name, createProjectRequest.Deadline);
+        }
+
+        [HttpGet]
+        [Route("get")]
+        public ActionResult<ProjectExternal> GetProject([FromQuery] Guid projectKey)
+        {
+            try
+            {
+                var project = _projectSerivce.GetProject(projectKey);
+                return Ok(toExternal(project));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        private ProjectExternal toExternal(Project project)
+        {
+            return new ProjectExternal()
+            {
+                Name = project.Name,
+                Deadline = project.Deadline
+            };
         }
     }
 }

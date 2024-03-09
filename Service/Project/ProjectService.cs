@@ -27,5 +27,11 @@ namespace Service.Project
                 Deadline = createProjectDTO.Deadline
             };
         }
+
+        public DataModel.Entities.Project GetProject(Guid projectKey)
+        {
+            return _dataContext.Projects.Find(projectKey) ??
+                throw new NotFoundException(projectKey);
+        }
     }
 }
