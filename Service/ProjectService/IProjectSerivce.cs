@@ -9,5 +9,7 @@ namespace Service.ProjectService
         public Project GetProject(Guid projectKey);
 
         public void LogTime(LogTimeDTO logTimeDTO);
+
+        public List<Project> GetAllProjects();
     }
 }

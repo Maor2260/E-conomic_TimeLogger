@@ -77,5 +77,13 @@ namespace Server.Controllers
                 return BadRequest(e.GetType().Name);
             }
         }
+
+        [HttpGet]
+        [Route("getoverview")]
+        public ActionResult<GetOverviewRespond> GetOverview()
+        {
+            var projects = _projectSerivce.GetAllProjects();
+            return Ok(new GetOverviewRespond(projects.Select(project => toExternal(project)).ToList()));
+        }
     }
 }

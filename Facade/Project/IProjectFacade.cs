@@ -9,5 +9,7 @@ namespace Facade.Project
         public ActionResult<ProjectExternal> GetProject([FromQuery] Guid projectKey);
 
         public ActionResult LogTime(LogTimeRequest logTimeRequest);
+
+        public ActionResult<GetOverviewRespond> GetOverview();
     }
 }

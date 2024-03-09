@@ -62,5 +62,10 @@ namespace Service.ProjectService
                 Duration = duration
             };
         }
+
+        public List<Project> GetAllProjects()
+        {
+            return _dataContext.Projects.OrderByDescending(project => project.Deadline).ToList();
+        }
     }
 }
