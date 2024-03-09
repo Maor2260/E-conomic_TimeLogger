@@ -1,9 +1,10 @@
 ﻿using DataModel.Entities;
 using Microsoft.EntityFrameworkCore;
+using Service.Data;
 
 namespace Server.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : DbContext, IDataContext
     {
         public DbSet<Project> Projects { get; set; }
 
