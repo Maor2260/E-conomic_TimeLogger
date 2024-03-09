@@ -10,5 +10,22 @@ namespace Service.Project
         {
             _dataContext = dataContext;
         }
+
+        public DataModel.Entities.Project CreateProject(CreateProjectDTO createProjectDTO)
+        {
+            var project = createProjectEntity(createProjectDTO);
+            _dataContext.Projects.Add(project);
+            _dataContext.SaveChanges();
+            return project;
+        }
+
+        private static DataModel.Entities.Project createProjectEntity(CreateProjectDTO createProjectDTO)
+        {
+            return new DataModel.Entities.Project
+            {
+                Name = createProjectDTO.Name,
+                Deadline = createProjectDTO.Deadline
+            };
+        }
     }
 }
