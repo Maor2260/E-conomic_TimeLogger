@@ -1,4 +1,4 @@
-﻿namespace Service.Project
+﻿namespace Service.ProjectService
 {
     public class CreateProjectDTO
     {

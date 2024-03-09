@@ -1,7 +1,7 @@
 ﻿using DataModel.Entities;
 using Facade.Project;
 using Microsoft.AspNetCore.Mvc;
-using Service.Project;
+using Service.ProjectService;
 
 namespace Server.Controllers
 {
@@ -51,6 +51,25 @@ namespace Server.Controllers
                 Name = project.Name,
                 Deadline = project.Deadline
             };
+        }
+
+        [HttpPost]
+        [Route("logtime")]
+        public ActionResult LogTime(LogTimeRequest logTimeRequest)
+        {
+            try
+            {
+                _projectSerivce.LogTime(new LogTimeDTO(logTimeRequest.ProjectKey, logTimeRequest.Duration.ToTimeSpan()));
+                return Ok();
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (TooShortDurationException)
+            {
+                return BadRequest(nameof(TooShortDurationException));
+            }
         }
     }
 }

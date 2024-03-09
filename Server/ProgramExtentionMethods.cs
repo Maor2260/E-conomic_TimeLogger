@@ -1,6 +1,6 @@
 ﻿using Server.Data;
 using Service.Data;
-using Service.Project;
+using Service.ProjectService;
 
 public static class ProgramExtentionMethods
 {
