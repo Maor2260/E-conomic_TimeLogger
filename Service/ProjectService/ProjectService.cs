@@ -4,7 +4,7 @@ using Service.Data;
 
 namespace Service.ProjectService
 {
-    public class ProjectService : IProjectSerivce
+    public class ProjectService : IProjectService
     {
         private readonly IDataContext _dataContext;
 
@@ -23,7 +23,11 @@ namespace Service.ProjectService
 
         private static Project createProjectEntity(CreateProjectDTO createProjectDTO)
         {
-            return new DataModel.Entities.Project
+            if (string.IsNullOrWhiteSpace(createProjectDTO.Name))
+            {
+                throw new InvalidNameException();
+            }
+            return new Project
             {
                 Name = createProjectDTO.Name,
                 Deadline = createProjectDTO.Deadline
@@ -65,7 +69,9 @@ namespace Service.ProjectService
 
         public List<Project> GetAllProjects()
         {
-            return _dataContext.Projects.OrderByDescending(project => project.Deadline).ToList();
+            return _dataContext.Projects
+                .OrderBy(project => project.Deadline != null ? project.Deadline : DateTime.MaxValue)
+                .ToList();
         }
     }
 }

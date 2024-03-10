@@ -12,6 +12,6 @@ public static class ProgramExtentionMethods
     public static void AddDependencyInjections(this IServiceCollection service)
     {
         service.AddScoped<IDataContext, DataContext>();
-        service.AddScoped<IProjectSerivce, ProjectService>();
+        service.AddScoped<IProjectService, ProjectService>();
     }
 }

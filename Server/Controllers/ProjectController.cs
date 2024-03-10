@@ -9,9 +9,9 @@ namespace Server.Controllers
     [Route("projects")]
     public class ProjectController : Controller, IProjectFacade
     {
-        private readonly IProjectSerivce _projectSerivce;
+        private readonly IProjectService _projectSerivce;
 
-        public ProjectController(IProjectSerivce projectSerivce)
+        public ProjectController(IProjectService projectSerivce)
         {
             _projectSerivce = projectSerivce;
         }
@@ -20,8 +20,15 @@ namespace Server.Controllers
         [Route("create")]
         public ActionResult<CreateProjectResponse> CreateProject(CreateProjectRequest createProjectRequest)
         {
-            var project = _projectSerivce.CreateProject(toDto(createProjectRequest));
-            return Ok(new CreateProjectResponse(project.Key));
+            try
+            {
+                var project = _projectSerivce.CreateProject(toDto(createProjectRequest));
+                return Ok(new CreateProjectResponse(project.Key));
+            } 
+            catch (Exception e)
+            {
+                return BadRequest(e.GetType().Name);
+            }
         }
 
         private CreateProjectDTO toDto(CreateProjectRequest createProjectRequest)

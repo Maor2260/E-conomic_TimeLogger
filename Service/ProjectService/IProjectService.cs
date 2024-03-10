@@ -2,7 +2,7 @@
 
 namespace Service.ProjectService
 {
-    public interface IProjectSerivce
+    public interface IProjectService
     {
         public Project CreateProject(CreateProjectDTO createProjectDTO);
 
